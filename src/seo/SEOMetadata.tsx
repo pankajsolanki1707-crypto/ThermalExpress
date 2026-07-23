@@ -43,6 +43,15 @@ export const SEOMetadata: React.FC<SEOMetadataProps> = ({
     }
     metaKeywords.content = keywords.join(', ');
 
+    // Google Site Verification Tag
+    let googleVerification = document.querySelector<HTMLMetaElement>('meta[name="google-site-verification"]');
+    if (!googleVerification) {
+      googleVerification = document.createElement('meta');
+      googleVerification.name = 'google-site-verification';
+      document.head.appendChild(googleVerification);
+    }
+    googleVerification.content = 'k1HPjIefxNhbnW18m7GHkUSXJ4ggpK08WLs4raNBfcY';
+
     // OpenGraph Tags
     const updateOgTag = (property: string, content: string) => {
       let tag = document.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
