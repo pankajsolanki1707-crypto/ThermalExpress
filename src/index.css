@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Thermal Paper Simulation Styles */
+  .receipt-paper {
+    background-color: #fcfdfd;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    position: relative;
+  }
+
+  .receipt-jagged-top {
+    background-image: radial-gradient(circle at 10px -5px, transparent 12px, #fcfdfd 13px);
+    background-size: 20px 20px;
+    background-repeat: repeat-x;
+    height: 12px;
+    top: -12px;
+    left: 0;
+    right: 0;
+    position: absolute;
+  }
+
+  .receipt-jagged-bottom {
+    background-image: radial-gradient(circle at 10px 15px, transparent 12px, #fcfdfd 13px);
+    background-size: 20px 20px;
+    background-repeat: repeat-x;
+    height: 12px;
+    bottom: -12px;
+    left: 0;
+    right: 0;
+    position: absolute;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+/* Print specific styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-thermal-receipt, #printable-thermal-receipt * {
+    visibility: visible;
+  }
+  #printable-thermal-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none !important;
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
