@@ -173,10 +173,11 @@ export async function printViaWebBluetooth(buffer: Uint8Array): Promise<boolean>
     const CHUNK_SIZE = 64;
     for (let i = 0; i < buffer.length; i += CHUNK_SIZE) {
       const chunk = buffer.subarray(i, i + CHUNK_SIZE);
+      const dataBuffer = chunk.buffer.slice(chunk.byteOffset, chunk.byteOffset + chunk.byteLength) as ArrayBuffer;
       if (writeCharacteristic.properties.writeWithoutResponse) {
-        await writeCharacteristic.writeValueWithoutResponse(chunk);
+        await writeCharacteristic.writeValueWithoutResponse(dataBuffer);
       } else {
-        await writeCharacteristic.writeValue(chunk);
+        await writeCharacteristic.writeValue(dataBuffer);
       }
       await new Promise(res => setTimeout(res, 30));
     }
