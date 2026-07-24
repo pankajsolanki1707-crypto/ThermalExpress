@@ -8,6 +8,8 @@ interface HeaderProps {
   onOpenHistory: () => void;
   onOpenInventory: () => void;
   onGoHome?: () => void;
+  onOpenAbout?: () => void;
+  onOpenPrivacy?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -15,6 +17,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenHistory,
   onOpenInventory,
   onGoHome,
+  onOpenAbout,
+  onOpenPrivacy,
 }) => {
   const { settings, salesHistory, clearAllData } = useBilling();
 
@@ -87,6 +91,28 @@ export const Header: React.FC<HeaderProps> = ({
             <Settings className="w-4 h-4 text-slate-600" />
             <span className="hidden md:inline">Settings</span>
           </button>
+
+          {/* About Us navigation link */}
+          {onOpenAbout && (
+            <button
+              onClick={onOpenAbout}
+              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold hidden lg:inline-block"
+              title="About Us & Hardware Specs"
+            >
+              About Us
+            </button>
+          )}
+
+          {/* Privacy Policy navigation link */}
+          {onOpenPrivacy && (
+            <button
+              onClick={onOpenPrivacy}
+              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold hidden lg:inline-block"
+              title="Privacy Policy"
+            >
+              Privacy Policy
+            </button>
+          )}
 
           {/* Reset / Clear Data */}
           <button

@@ -8,19 +8,34 @@ import { BarcodeScannerModal } from './components/BarcodeScannerModal';
 import { StoreSettingsModal } from './components/StoreSettingsModal';
 import { SalesHistoryModal } from './components/SalesHistoryModal';
 import { InventoryModal } from './components/InventoryModal';
-import { LandingPage } from './pages/LandingPage';
+import { AboutPage } from './pages/AboutPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { SEOMetadata } from './seo/SEOMetadata';
 import { SoftwareApplicationSchema, FAQPageSchema } from './seo/JsonLd';
 
 const AppContent: React.FC = () => {
-  const [view, setView] = useState<'app' | 'landing'>('app');
+  const [view, setView] = useState<'app' | 'about' | 'privacy'>('app');
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
 
-  if (view === 'landing') {
-    return <LandingPage onLaunchApp={() => setView('app')} />;
+  if (view === 'about') {
+    return (
+      <AboutPage
+        onLaunchApp={() => setView('app')}
+        onGoToPrivacy={() => setView('privacy')}
+      />
+    );
+  }
+
+  if (view === 'privacy') {
+    return (
+      <PrivacyPolicyPage
+        onBackToApp={() => setView('app')}
+        onGoToAbout={() => setView('about')}
+      />
+    );
   }
 
   return (
@@ -30,23 +45,32 @@ const AppContent: React.FC = () => {
       <SoftwareApplicationSchema />
       <FAQPageSchema />
 
-      {/* App Navigation Header - Logo acts as Home button */}
+      {/* App Navigation Header */}
       <Header
         onGoHome={() => setView('app')}
         onOpenSettings={() => setIsSettingsOpen(true)}
         onOpenHistory={() => setIsHistoryOpen(true)}
         onOpenInventory={() => setIsInventoryOpen(true)}
+        onOpenAbout={() => setView('about')}
+        onOpenPrivacy={() => setView('privacy')}
       />
 
       {/* Sleek Announcement / Guide Banner */}
-      <div className="bg-emerald-50 border-b border-emerald-100 py-1.5 px-4 text-center text-xs font-semibold text-emerald-800 flex items-center justify-center gap-2">
+      <div className="bg-emerald-50 border-b border-emerald-100 py-1.5 px-4 text-center text-xs font-semibold text-emerald-800 flex items-center justify-center gap-2 flex-wrap">
         <span>⚡ Zero Signup Retail Counter Billing</span>
         <span>•</span>
         <button
-          onClick={() => setView('landing')}
+          onClick={() => setView('about')}
           className="text-emerald-700 hover:underline font-bold"
         >
-          View Bluetooth Printer Setup & Hardware Specs →
+          About Us Section & Hardware Specs →
+        </button>
+        <span>•</span>
+        <button
+          onClick={() => setView('privacy')}
+          className="text-emerald-700 hover:underline font-bold"
+        >
+          Privacy Policy
         </button>
       </div>
 
@@ -72,6 +96,24 @@ const AppContent: React.FC = () => {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-slate-200 py-4 px-4 text-center text-xs text-slate-500 space-y-1 mt-auto">
+        <div className="flex justify-center items-center gap-3 text-slate-600 font-medium">
+          <button onClick={() => setView('app')} className="hover:text-emerald-600 transition">
+            Home Billing Terminal
+          </button>
+          <span>•</span>
+          <button onClick={() => setView('about')} className="hover:text-emerald-600 transition">
+            About Us
+          </button>
+          <span>•</span>
+          <button onClick={() => setView('privacy')} className="hover:text-emerald-600 transition">
+            Privacy Policy
+          </button>
+        </div>
+        <p>© 2026 Thermal Express • 100% Offline & Private Retail Counter Billing</p>
+      </footer>
 
       {/* Modals */}
       <BarcodeScannerModal
