@@ -62,21 +62,21 @@ const DEFAULT_PRODUCTS: Product[] = [
     id: 'demo-1',
     name: 'Mineral Water Bottle 1L',
     price: 20,
-    barcode: '8901234567890',
+    barcode: '',
     category: 'Beverages',
   },
   {
     id: 'demo-2',
     name: 'Hot Coffee / Tea',
     price: 40,
-    barcode: '8901234567891',
+    barcode: '',
     category: 'Beverages',
   },
   {
     id: 'demo-3',
     name: 'Snack / Biscuit Pack',
     price: 30,
-    barcode: '8901234567892',
+    barcode: '',
     category: 'Snacks',
   },
 ];
@@ -102,12 +102,16 @@ export const BillingProvider: React.FC<{ children: ReactNode }> = ({ children })
     }
   });
 
-  // 2. Inventory State with Safe Parsing (Defaults to 3 Demo Products)
+  // 2. Inventory State with Safe Parsing (Defaults to 3 Demo Products without barcodes)
   const [products, setProducts] = useState<Product[]>(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEYS.PRODUCTS);
       const parsed = safeJsonParse<Product[]>(saved, DEFAULT_PRODUCTS);
-      return parsed.length > 0 ? parsed : DEFAULT_PRODUCTS;
+      const initialList = parsed.length > 0 ? parsed : DEFAULT_PRODUCTS;
+      return initialList.map((p) => ({
+        ...p,
+        barcode: p.barcode && p.barcode.startsWith('890123456789') ? '' : p.barcode,
+      }));
     } catch {
       return DEFAULT_PRODUCTS;
     }
