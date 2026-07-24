@@ -14,11 +14,47 @@ import { SEOMetadata } from './seo/SEOMetadata';
 import { SoftwareApplicationSchema, FAQPageSchema } from './seo/JsonLd';
 
 const AppContent: React.FC = () => {
-  const [view, setView] = useState<'app' | 'about' | 'privacy'>('app');
+  const [view, setViewState] = useState<'app' | 'about' | 'privacy'>(() => {
+    const hash = window.location.hash.replace('#/', '').replace('#', '');
+    if (hash === 'about') return 'about';
+    if (hash === 'privacy') return 'privacy';
+    return 'app';
+  });
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
+
+  const setView = (newView: 'app' | 'about' | 'privacy') => {
+    setViewState(newView);
+    if (newView === 'app') {
+      if (window.location.hash) {
+        window.history.pushState({ view: 'app' }, '', window.location.pathname);
+      }
+    } else {
+      window.history.pushState({ view: newView }, '', `#/${newView}`);
+    }
+  };
+
+  React.useEffect(() => {
+    const handlePopState = () => {
+      const hash = window.location.hash.replace('#/', '').replace('#', '');
+      if (hash === 'about') {
+        setViewState('about');
+      } else if (hash === 'privacy') {
+        setViewState('privacy');
+      } else {
+        setViewState('app');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handlePopState);
+    };
+  }, []);
 
   if (view === 'about') {
     return (
