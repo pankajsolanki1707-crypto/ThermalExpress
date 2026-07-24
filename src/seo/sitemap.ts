@@ -110,7 +110,7 @@ export const SEO_ROUTES: SEORoute[] = [
   },
 ];
 
-export function generateSitemapXML(baseUrl: string = 'https://thermalexpress.app'): string {
+export function generateSitemapXML(baseUrl: string = 'https://thermalexpress.vercel.app'): string {
   const urls = SEO_ROUTES.map((route) => {
     return `  <url>
     <loc>${baseUrl}${route.path}</loc>

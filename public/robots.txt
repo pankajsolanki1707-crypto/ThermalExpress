@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://thermalexpress.app/sitemap.xml
+Sitemap: https://thermalexpress.vercel.app/sitemap.xml
