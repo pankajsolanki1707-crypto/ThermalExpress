@@ -21,6 +21,7 @@ interface BillingContextType {
   addProduct: (productData: Omit<Product, 'id'>) => Product;
   updateProduct: (product: Product) => void;
   deleteProduct: (productId: string) => void;
+  loadDemoProducts: () => void;
 
   // Checkout & Sales
   completeSale: (paymentMethod?: 'UPI' | 'CASH' | 'CARD', customerPhone?: string) => SalesRecord;
@@ -56,6 +57,30 @@ const DEFAULT_SETTINGS: StoreSettings = {
   footerNote: 'Thank You For Your Business!',
 };
 
+const DEFAULT_PRODUCTS: Product[] = [
+  {
+    id: 'demo-1',
+    name: 'Mineral Water Bottle 1L',
+    price: 20,
+    barcode: '8901234567890',
+    category: 'Beverages',
+  },
+  {
+    id: 'demo-2',
+    name: 'Hot Coffee / Tea',
+    price: 40,
+    barcode: '8901234567891',
+    category: 'Beverages',
+  },
+  {
+    id: 'demo-3',
+    name: 'Snack / Biscuit Pack',
+    price: 30,
+    barcode: '8901234567892',
+    category: 'Snacks',
+  },
+];
+
 const BillingContext = createContext<BillingContextType | undefined>(undefined);
 
 const LOCAL_STORAGE_KEYS = {
@@ -77,23 +102,26 @@ export const BillingProvider: React.FC<{ children: ReactNode }> = ({ children })
     }
   });
 
-  // 2. Inventory State with Safe Parsing
+  // 2. Inventory State with Safe Parsing (Defaults to 3 Demo Products)
   const [products, setProducts] = useState<Product[]>(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEYS.PRODUCTS);
-      return safeJsonParse<Product[]>(saved, []);
+      const parsed = safeJsonParse<Product[]>(saved, DEFAULT_PRODUCTS);
+      return parsed.length > 0 ? parsed : DEFAULT_PRODUCTS;
     } catch {
-      return [];
+      return DEFAULT_PRODUCTS;
     }
   });
 
-  // 3. Cart State with Safe Parsing
+  // 3. Cart State with Safe Parsing (Defaults to 1 Demo Cart Item for immediate demonstration)
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEYS.CART);
-      return safeJsonParse<CartItem[]>(saved, []);
+      const parsed = safeJsonParse<CartItem[]>(saved, []);
+      if (parsed.length > 0) return parsed;
+      return [{ product: DEFAULT_PRODUCTS[0], quantity: 1 }];
     } catch {
-      return [];
+      return [{ product: DEFAULT_PRODUCTS[0], quantity: 1 }];
     }
   });
 
@@ -270,6 +298,11 @@ export const BillingProvider: React.FC<{ children: ReactNode }> = ({ children })
     setProducts((prev) => prev.filter((p) => p.id !== productId));
   };
 
+  const loadDemoProducts = () => {
+    setProducts(DEFAULT_PRODUCTS);
+    setCart([{ product: DEFAULT_PRODUCTS[0], quantity: 1 }]);
+  };
+
   // Sales & Receipts
   const completeSale = (paymentMethod: 'UPI' | 'CASH' | 'CARD' = 'UPI', customerPhone?: string): SalesRecord => {
     const cleanPhone = customerPhone ? sanitizeString(customerPhone.replace(/\D/g, ''), 15) : undefined;
@@ -354,6 +387,7 @@ export const BillingProvider: React.FC<{ children: ReactNode }> = ({ children })
         addProduct,
         updateProduct,
         deleteProduct,
+        loadDemoProducts,
         completeSale,
         deleteSaleRecord,
         clearAllData,
