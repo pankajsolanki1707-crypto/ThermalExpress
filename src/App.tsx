@@ -61,16 +61,9 @@ const AppContent: React.FC = () => {
         <span>•</span>
         <button
           onClick={() => setView('about')}
-          className="text-emerald-700 hover:underline font-bold"
+          className="text-emerald-700 hover:underline font-bold flex items-center gap-1"
         >
-          About Us Section & Hardware Specs →
-        </button>
-        <span>•</span>
-        <button
-          onClick={() => setView('privacy')}
-          className="text-emerald-700 hover:underline font-bold"
-        >
-          Privacy Policy
+          <span>Bluetooth Printer Setup & Hardware Specs →</span>
         </button>
       </div>
 

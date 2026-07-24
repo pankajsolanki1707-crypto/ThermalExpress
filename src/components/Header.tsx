@@ -1,7 +1,7 @@
 import React from 'react';
 import { useBilling } from '../context/BillingContext';
 import { Logo } from './Logo';
-import { Settings, History, Package, WifiOff, Trash2, Home } from 'lucide-react';
+import { Settings, History, Package, WifiOff, Trash2, Home, Info, ShieldCheck } from 'lucide-react';
 
 interface HeaderProps {
   onOpenSettings: () => void;
@@ -45,8 +45,8 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Brand Logo - Clicking acts as Home Button */}
         <Logo onClick={handleHomeClick} />
 
-        {/* Quick Action Navigation */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* Header Menu Navigation */}
+        <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-end">
           {/* Explicit Home Button */}
           <button
             onClick={handleHomeClick}
@@ -54,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
             title="Home Billing Workspace"
           >
             <Home className="w-4 h-4 text-emerald-600" />
-            <span className="hidden md:inline">Home</span>
+            <span className="hidden sm:inline">Home</span>
           </button>
 
           {/* Inventory Catalog button */}
@@ -64,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({
             title="Product Catalog"
           >
             <Package className="w-4 h-4 text-emerald-600" />
-            <span className="hidden md:inline">Catalog</span>
+            <span className="hidden sm:inline">Catalog</span>
           </button>
 
           {/* Sales History button */}
@@ -74,13 +74,37 @@ export const Header: React.FC<HeaderProps> = ({
             title="Sales History"
           >
             <History className="w-4 h-4 text-indigo-600" />
-            <span className="hidden md:inline">History</span>
+            <span className="hidden sm:inline">History</span>
             {salesHistory.length > 0 && (
               <span className="w-4 h-4 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center">
                 {salesHistory.length > 99 ? '99+' : salesHistory.length}
               </span>
             )}
           </button>
+
+          {/* About Us menu link */}
+          {onOpenAbout && (
+            <button
+              onClick={onOpenAbout}
+              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition flex items-center gap-1.5 text-xs font-semibold"
+              title="About Us & Hardware Specs"
+            >
+              <Info className="w-4 h-4 text-sky-600" />
+              <span className="hidden sm:inline">About Us</span>
+            </button>
+          )}
+
+          {/* Privacy Policy menu link */}
+          {onOpenPrivacy && (
+            <button
+              onClick={onOpenPrivacy}
+              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition flex items-center gap-1.5 text-xs font-semibold"
+              title="Privacy Policy"
+            >
+              <ShieldCheck className="w-4 h-4 text-teal-600" />
+              <span className="hidden sm:inline">Privacy Policy</span>
+            </button>
+          )}
 
           {/* Settings button */}
           <button
@@ -89,30 +113,8 @@ export const Header: React.FC<HeaderProps> = ({
             title="Store Settings"
           >
             <Settings className="w-4 h-4 text-slate-600" />
-            <span className="hidden md:inline">Settings</span>
+            <span className="hidden sm:inline">Settings</span>
           </button>
-
-          {/* About Us navigation link */}
-          {onOpenAbout && (
-            <button
-              onClick={onOpenAbout}
-              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold hidden lg:inline-block"
-              title="About Us & Hardware Specs"
-            >
-              About Us
-            </button>
-          )}
-
-          {/* Privacy Policy navigation link */}
-          {onOpenPrivacy && (
-            <button
-              onClick={onOpenPrivacy}
-              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold hidden lg:inline-block"
-              title="Privacy Policy"
-            >
-              Privacy Policy
-            </button>
-          )}
 
           {/* Reset / Clear Data */}
           <button
