@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Rounded Emerald Gradient Card -->
+  <rect width="64" height="64" rx="16" fill="url(#emeraldGradient)"/>
+  <defs>
+    <linearGradient id="emeraldGradient" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981"/>
+      <stop offset="1" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Thermal Receipt Paper Roll Outline -->
+  <path d="M18 10H46C48.2091 10 50 11.7909 50 14V50L43 46.5L36 50L29 46.5L22 50L14 46.5V14C14 11.7909 15.7909 10 18 10Z" fill="white" fill-opacity="0.25" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Fast Express Lightning Bolt -->
+  <path d="M35 16L24 33H34L30 48L42 30H32L35 16Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
